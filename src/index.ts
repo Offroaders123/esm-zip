@@ -12,6 +12,10 @@ export interface LocalFileHeader {
   crc32: number;
   compressedSize: number;
   uncompressedSize: number;
+  fileNameLength: number;
+  extraFieldLength: number;
+  fileName: string;
+  extraField: Buffer;
 }
 
 export function readLocalFileHeader(data: Buffer): LocalFileHeader {
@@ -26,6 +30,10 @@ export function readLocalFileHeader(data: Buffer): LocalFileHeader {
   const crc32: number = view.getUint32(14,true);
   const compressedSize: number = view.getUint32(18,true);
   const uncompressedSize: number = view.getUint32(22,true);
+  const fileNameLength: number = view.getUint16(26,true);
+  const extraFieldLength: number = view.getUint16(28,true);
+  const fileName: string = data.subarray(30,30 + fileNameLength).toString("utf-8");
+  const extraField: Buffer = data.subarray(30 + fileNameLength, 30 + fileNameLength + extraFieldLength);
 
-  return { signature, version, generalBitFlag, compressionMethod, lastModifiedTime, lastModifiedDate, crc32, compressedSize, uncompressedSize };
+  return { signature, version, generalBitFlag, compressionMethod, lastModifiedTime, lastModifiedDate, crc32, compressedSize, uncompressedSize, fileNameLength, extraFieldLength, fileName, extraField };
 }
