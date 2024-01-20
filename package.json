@@ -1,0 +1,14 @@
+{
+  "name": "esm-zip",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc; vite build",
+    "dev": "vite",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.5",
+    "typescript": "^5.3.3"
+  }
+}
